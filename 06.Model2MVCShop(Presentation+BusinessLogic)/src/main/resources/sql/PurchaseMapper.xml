@@ -6,92 +6,81 @@
 
 
 <mapper namespace="PurchaseMapper">
+<resultMap type="purchase" id="purchaseSelectMap">
+<result property="tranNo" column="TRAN_NO" jdbcType="INTEGER"/>
+<result property="purchaseProd.prodNo" column="PROD_NO" jdbcType="INTEGER"/>
+<result property="buyer.userId" column="BUYER_ID" jdbcType="VARCHAR"/>
+<result property="paymentOption" column="PAYMENT_OPTION" jdbcType="CHAR"/>
+<result property="receiverName" column="RECEIVER_NAME" jdbcType="VARCHAR"/>
+<result property="receiverPhone" column="RECEIVER_PHONE" jdbcType="VARCHAR"/>
+<result property="divyAddr" column="DEMAILADDR" jdbcType="VARCHAR"/>
+<result property="divyRequest" column="DLVY_REQUEST" jdbcType="VARCHAR"/>
+<result property="tranCode" column="TRAN_STATUS_CODE" jdbcType="CHAR"/>
+<result property="orderDate" column="ORDER_DATA" jdbcType="DATE"/>
+<result property="divyDate" column="DLVY_DATE" jdbcType="DATE"/>
+</resultMap>
 
-	<resultMap id="purchaseSelectMap" type="purchase">
-		<result property="fileName" column="IMAGE_FILE" jdbcType="VARCHAR" />
-		<result property="manuDate" column="MANUFACTURE_DAY" jdbcType="VARCHAR" />
-		<result property="price" column="PRICE" jdbcType="INTEGER" />
-		<result property="prodDetail" column="PROD_DETAIL" jdbcType="VARCHAR" />
-		<result property="prodNo" column="PROD_NO" jdbcType="INTEGER" />
-		<result property="regDate" column="REG_DATE" jdbcType="DATE" />
-		<result property="prodName" column="PROD_NAME" jdbcType="VARCHAR" />
-	</resultMap>
+<select id="getPurchase" parameterType="int" resultMap="purchaseSelectMap">
+<!-- SELECT prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, dlvy_date, order_date, tran_status_code, tran_no FROM transaction WHERE tran_no = #{tranNo} -->
+	SELECT * from transaction where tran_no=#{tranNo}
+</select>
+
+<insert id="addPurchase" parameterType="purchase">
+	insert into transaction (tran_no, prod_no, buyer_id, payment_option, DEMAILADDR, DLVY_DATE, DLVY_REQUEST, RECEIVER_NAME,RECEIVER_PHONE,order_data,tran_status_code) 
+	values(
+	seq_transaction_tran_no.nextval,
+	#{purchaseProd.prodNo:INTEGER},
+	#{buyer.userId},
+	#{paymentOption},
+	#{divyAddr},
+	#{divyDate},
+	#{divyRequest},
+	#{receiverName},
+	#{receiverPhone},
+	SYSDATE,
+	'1  ')
+</insert>
 
 
-	<insert id="addProduct" parameterType="product">
-		INSERT INTO product (prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date)
-		VALUES (
-		
-		SEQ_PRODUCT_PROD_NO.NEXTVAL,
-		
-		#{prodName}, #{prodDetail:VARCHAR},  #{manuDate:VARCHAR},
-		 
-		 <if test = "price==0">NULL</if>
-		<if test = "price !=0">#{price}</if>,
-		
-		 #{fileName:VARCHAR}, SYSDATE)
-	</insert>
-
-
-
-	<select id="getProduct" parameterType="int" resultMap="productSelectMap">
-		SELECT * FROM product
-		WHERE prod_no=#{value}
-	</select>
-
-	<update id="updateProduct" parameterType="product">
-		UPDATE product
+	<update id="updatePurchase" parameterType="purchase">
+		UPDATE transaction
+				
 		<set>
-			prod_name = #{prodName},
-			image_file = #{fileName:VARCHAR},
-			price = #{price:INTEGER},
-			prod_detail = #{prodDetail:VARCHAR},
-			MANUFACTURE_DAY = #{manuDate:VARCHAR},
+			PAYMENT_OPTION=#{paymentOption},
+			image_file = #{fileName},
+			RECEIVER_NAME=#{receiverName},
+			RECEIVER_PHONE=#{receiverPhone},
+			DEMAILADDR=#{divyAddr},
+			DLVY_REQUEST=#{divyRequest},
+			DLVY_DATE=${divyDate}
 		</set>
-		WHERE prod_No =#{prodNo}
+			WHERE tran_no= #{tranNo:INTEGER}
 	</update>
 
-	<delete id="removeProduct" parameterType="int">
+	<delete id="removePurchase" parameterType="int">
 		DELETE
-		FROM product
+		FROM purchase
 		WHERE prod_no =#{value}
 	</delete>
 
-	<sql id="select-product">
+	<sql id="select-purchase">
 		SELECT
 		*
-		FROM product
+		FROM purchase
 	</sql>
 
 	<sql id="orderby-prod_no-desc">
 		ORDER BY prod_no DESC
 	</sql>
 	
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
-	  	<!-- SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT prod_no , prod_name
-											FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				prod_no = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_name = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY prod_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select> -->
-	 
+	<select  id="getPurchaseList"  parameterType="search"	resultMap="purchaseSelectMap">
+	  		 
 	 SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT p.prod_no,p.prod_name,p.image_file,p.manufacture_day,p.price,p.prod_detail,p.reg_date,t.tran_status_code
-	  										 FROM product p, transaction t
-	  										 	WHERE p.prod_no = t.prod_no(+)
+	  					FROM		(	SELECT p.prod_no, p.prod_name, t.demailaddr, t.receiver_phone, t.tran_status_code, t.tran_no, t.dlvy_date,t.dlvy_request,t.order_data,t.payment_option
+										FROM product p, transaction t 
+										WHERE p.prod_no = t.prod_no
+										AND t.buyer_id= #{buyer.userId}
 											
 											<if test="searchCondition != null">
 												<where>
@@ -108,21 +97,55 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	
-	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
+<select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT prod_no , prod_name 
-						FROM product
+	  	FROM(	SELECT tran_no , prod_no 
+						FROM transaction
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			prod_no = #{searchKeyword}
+						 			tran_no = #{searchKeyword}
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		prod_name = #{searchKeyword}
+						 		prod_no = #{searchKeyword}
 								</if>
 							</where>
 						</if> ) countTable						
 	 </select>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 	<select  id="getTotalCount"  parameterType="search" resultMap="purchaseSelectMap" >
+	  SELECT 
+	  * 
+	  FROM 
+	  (SELECT inner_table. * ,  ROWNUM AS row_seq  	
+	  FROM 
+	  (	select p.prod_no, p.prod_name, t.demailaddr, t.receiver_phone, t.tran_status_code, 
+	  t.tran_no, t.dlvy_date,t.dlvy_request,t.order_data,t.payment_option from product p, transaction t 
+	  WHERE p.prod_no = t.prod_no 
+	  AND t.buyer_id= #{buyer.userId} ) inner_table 	
+	  <where>
+	   ROWNUM  &lt;= #{search.currentPage} )
+	   AND row_seq BETWEEN #{search.CurrentPage - 1) * #{search.PageSize + 1)
+	   AND #{search.CurrentPage} * #{search.PageSize}
+	  </where> 
+	   
+	   
+	  </select> -->
+	  
+	  <!-- mybatis 비교문 작성법
+	  1. <![CDATA[ query~~~ a <> or -> or != ]]> 
+	  2. >  는 &gt; < 는 &lt;
+	    -->
 	 
 	 
 </mapper>	
