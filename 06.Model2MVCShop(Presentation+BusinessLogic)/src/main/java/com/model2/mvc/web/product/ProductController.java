@@ -115,6 +115,8 @@ public class ProductController {
 		
 		System.out.println("update menu Check"+menu);
 		
+		product.setManuDate(product.getManuDate().replaceAll("-", ""));
+		
 		productService.updateProduct(product);
 		System.out.println("updateProduct : " + product);
 
