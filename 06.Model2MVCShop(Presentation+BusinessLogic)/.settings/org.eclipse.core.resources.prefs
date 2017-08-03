@@ -8,5 +8,6 @@ encoding//src/main/java/com/model2/mvc/service/domain/User.java=ms949
 encoding//src/main/java/com/model2/mvc/service/user/impl/UserDaoImpl.java=ms949
 encoding//src/main/java/com/model2/mvc/service/user/impl/UserServiceImpl.java=ms949
 encoding//src/main/java/com/model2/mvc/web/product/ProductController.java=ms949
+encoding//src/main/java/com/model2/mvc/web/purchase/PurchaseController.java=ms949
 encoding//src/main/java/com/model2/mvc/web/user/UserController.java=ms949
 encoding//src/test/java/com/model2/mvc/service/user/test/UserServiceTest.java=ms949
