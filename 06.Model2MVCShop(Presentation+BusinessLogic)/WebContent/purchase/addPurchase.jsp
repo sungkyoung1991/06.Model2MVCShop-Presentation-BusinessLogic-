@@ -10,6 +10,7 @@
 <body>
 
 <form name="updatePurchase" action="/updatePurchaseView.do?tranNo=${purchase.tranNo }" method="post">
+<input type="hidden" name="menu" value="${param.menu }" />
 
 
 다음과 같이 구매가 되었습니다.

@@ -50,13 +50,7 @@ function resetData(){
 
 <form name="detailForm" method="post">
 
-
-
-
-<input type="hidden" name="proTranCode" value="${product.proTranCode }" />
-
-
-
+<%-- <input type="hidden" name="proTranCode" value="${product.proTranCode }" /> --%>
 
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">

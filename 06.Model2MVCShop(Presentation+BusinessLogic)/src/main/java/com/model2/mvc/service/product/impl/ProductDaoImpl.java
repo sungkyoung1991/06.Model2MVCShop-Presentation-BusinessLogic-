@@ -1,6 +1,9 @@
 package com.model2.mvc.service.product.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ public class ProductDaoImpl implements ProductDao {
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
+	
 
 	public void setSqlSession(SqlSession sqlSession) {
 		System.out.println("::" + getClass() + ".setSqlSession() call..");
@@ -45,8 +49,23 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public List<Product> getProductList(Search search) throws Exception {
 		// TODO Auto-generated method stub
+//		this.findProduct(prodNo);
+//		setProTranCode(purchase.getTranCode());
+		
 		return sqlSession.selectList("ProductMapper.getProductList", search);
 	}
+//	public Map<String,Object> getProductList(Search search) throws Exception {
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		List<Product> list = sqlSession.selectList("ProductMapper.getProductList", search);
+//		
+//		map.put("list", list);
+//		
+//		return map;
+//		
+//	}
+
 
 	@Override
 	public void updateProduct(Product product) throws Exception {
@@ -72,5 +91,7 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 	}
+	
+		
 
 }

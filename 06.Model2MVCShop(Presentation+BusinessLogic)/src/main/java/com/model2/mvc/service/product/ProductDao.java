@@ -12,15 +12,15 @@ public interface ProductDao {
 	public Product findProduct(int prodNo) throws Exception;
 
 	public List<Product> getProductList(Search search) throws Exception;
+	
 
 	public void updateProduct(Product product) throws Exception;
-
-//	int getTotalCount(String sql) throws Exception;
 
 	String makeCurrentPageSql(String sql, Search search);
 
 	int removeProduct(int prodNo) throws Exception;
 	
 	public int getTotalCount(Search search) throws Exception ;
+	
 
 }

@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
-	function fncGetUserList() {
+	function fncGetList(currentPage) { // user > purchase 로 변경
+		document.getElementById("currentPage").value = currentPage;
 		document.detailForm.submit();
 	}
 </script>
@@ -19,7 +20,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listUser.do" method="post">
+<form name="detailForm" action="/listPurchase.do" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -79,7 +80,7 @@
 		<td align="left"></td>
 		<td>
 		
-		
+		<!-- 배송현황 -->
 		<c:if test="${purchase.tranCode=='1  '}">
 		배송준비중
 		</c:if>

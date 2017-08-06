@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	public ProductServiceImpl() {
-
+		productDao = new ProductDaoImpl();
 	}
 
 	@Override
@@ -37,9 +37,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProduct(int prodNo) throws Exception {
+//	public Product getProduct(int prodNo) throws Exception {
+//		// TODO Auto-generated method stub
+//		return productDao.findProduct(prodNo);
+//	}
+	public Product getProduct(int tranNo) throws Exception {
 		// TODO Auto-generated method stub
-		return productDao.findProduct(prodNo);
+		return productDao.findProduct(tranNo);
 	}
 
 	@Override
@@ -54,6 +58,13 @@ public class ProductServiceImpl implements ProductService {
 
 		return map;
 	}
+	
+//	public Map<String, Object> getProductList(Search search) throws Exception {
+//		// TODO Auto-generated method stub
+//		
+//		return productDao.getProductList(search);
+//	}
+
 
 	@Override
 	public void updateProduct(Product product) throws Exception {

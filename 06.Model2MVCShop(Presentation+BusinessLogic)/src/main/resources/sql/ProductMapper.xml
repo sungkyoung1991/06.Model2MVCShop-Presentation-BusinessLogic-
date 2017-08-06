@@ -15,8 +15,8 @@
 		<result property="prodNo" column="PROD_NO" jdbcType="INTEGER" />
 		<result property="regDate" column="REG_DATE" jdbcType="DATE" />
 		<result property="prodName" column="PROD_NAME" jdbcType="VARCHAR" />
+		<result property="proTranCode" column="TRAN_STATUS_CODE" jdbcType="CHAR" />
 	</resultMap>
-
 
 	<insert id="addProduct" parameterType="product">
 		INSERT INTO product (prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date)

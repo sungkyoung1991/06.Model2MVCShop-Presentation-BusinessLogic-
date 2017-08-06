@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-	function fncGetUserList(currentPage) {
+	function fncGetList(currentPage) {
 		document.getElementById("currentPage").value = currentPage;
 	   	document.detailForm.submit();		
 	} 
@@ -162,7 +162,7 @@
 		
 		<c:if test="${product.proTranCode=='1  '}">
 			<c:if test="${param.menu=='manage' }">
-		<a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.proTranCode}&menu=${param.menu}">상품배송하기</a>
+		<a href="/updateTranCode.do?prodNo=${product.prodNo}&menu=${param.menu}&tranCode=${product.proTranCode}">상품배송하기</a>
 			</c:if>
 		</c:if>
 		

@@ -16,13 +16,12 @@
 </script>
 
 <script type="text/javascript">
-<!--
-function fncAddPurchase(){
+
+function fncUpdatePurchase(){
 
 	document.detailForm.action='/updatePurchase.do';
 	document.detailForm.submit();
 }
--->
 </script>
 </head>
 
@@ -32,7 +31,7 @@ function fncAddPurchase(){
 
 <input type="hidden" name="prodNo" value= "${product.prodNo }"/>
 <input type="hidden" name="tranNo" value="${purchase.tranNo }"/>
-<input type="hidden" name="TranCode" value="${purchase.tranCode }"/>
+<input type="hidden" name="tranCode" value="${purchase.tranCode }"/>
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -170,7 +169,7 @@ function fncAddPurchase(){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="javascript:fncAddPurchase();">수정</a>
+						<a href="javascript:fncUpdatePurchase();">수정</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

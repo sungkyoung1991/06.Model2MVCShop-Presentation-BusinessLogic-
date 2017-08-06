@@ -1,35 +1,65 @@
 package com.model2.mvc.service.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
-
-import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.domain.User;
+import java.util.List;
 
 
-public class Purchase {
+public class Purchase implements Serializable {
 	
-	private User buyer;
+	
 	private String divyAddr;
 	private String divyDate;
 	private String divyRequest;
 	private Date orderDate;
 	private String paymentOption;
-	private Product purchaseProd;
 	private String receiverName;
 	private String receiverPhone;
 	private String tranCode;
 	private int tranNo;
-	//mybatis pdf  has a association
 	
-	public Purchase(){
-	}
-	
+	///////////Purchase has a User
+	private User buyer;
 	public User getBuyer() {
 		return buyer;
 	}
 	public void setBuyer(User buyer) {
 		this.buyer = buyer;
 	}
+	
+	private List<User> userList;
+	
+	public List<User> getUserList() {
+		return userList;
+	}
+	public void SetUserList(List<User> userList) {
+		this.userList = userList;
+	}
+	
+	///////////Purchase has a Product
+	private Product purchaseProd;
+	
+	public Product getPurchaseProd() {
+		return purchaseProd;
+	}
+	public void setPurchaseProd(Product purchaseProd) {
+		this.purchaseProd = purchaseProd;
+	}
+	
+	private List<Product> productList;
+	
+	public List<Product> getProductList() {
+		return productList;
+	}
+	public void SetProductList(List<Product> productList) {
+		this.productList = productList;
+	}
+	
+
+	public Purchase(){
+	}
+	
+	
 	public String getDivyAddr() {
 		return divyAddr;
 	}
@@ -60,12 +90,7 @@ public class Purchase {
 	public void setPaymentOption(String paymentOption) {
 		this.paymentOption = paymentOption;
 	}
-	public Product getPurchaseProd() {
-		return purchaseProd;
-	}
-	public void setPurchaseProd(Product purchaseProd) {
-		this.purchaseProd = purchaseProd;
-	}
+	
 	public String getReceiverName() {
 		return receiverName;
 	}

@@ -2,6 +2,7 @@ package com.model2.mvc.web.product;
 
 import java.util.Map;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,8 @@ import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
+
+import junit.framework.Assert;
 
 //==> 회원관리 Controller
 @Controller
@@ -41,6 +44,7 @@ public class ProductController {
 	// @Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
 
+	@Test
 	@RequestMapping("/addProduct.do")
 	public ModelAndView addProduct(@ModelAttribute("product") Product product) throws Exception {
 
@@ -69,19 +73,17 @@ public class ProductController {
 		System.out.println("Controller Product Check : " + product);
 		System.out.println("menu check : " + menu);
 
-		
-		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("product", product);
-		modelAndView.addObject("menu",menu);
-//		modelAndView.setViewName("forward:/product/getProduct.jsp");
+		modelAndView.addObject("menu", menu);
+		// modelAndView.setViewName("forward:/product/getProduct.jsp");
 
 		if (menu.equals("manage")) {
 			modelAndView.setViewName("forward:/product/updateProductView.jsp");
 		} else {
 			modelAndView.setViewName("forward:/product/getProduct.jsp");
 		}
-		
+
 		return modelAndView;
 	}
 
@@ -100,17 +102,15 @@ public class ProductController {
 	}
 
 	@RequestMapping("/updateProduct.do")
-	public ModelAndView updateProduct(
-								@ModelAttribute("product") Product product,
-									@RequestParam("menu") String menu) throws Exception {
+	public ModelAndView updateProduct(@ModelAttribute("product") Product product, @RequestParam("menu") String menu)
+			throws Exception {
 
 		System.out.println("/updateProduct.do");
-		
-		
-		System.out.println("update menu Check"+menu);
-		
+
+		System.out.println("update menu Check" + menu);
+
 		product.setManuDate(product.getManuDate().replaceAll("-", ""));
-		
+
 		productService.updateProduct(product);
 		System.out.println("updateProduct : " + product);
 
